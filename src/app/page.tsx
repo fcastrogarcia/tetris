@@ -12,9 +12,9 @@ export default function Home() {
       <div>
         {layout.map((row, i) => (
           <div className={styles.row} key={i.toString()}>
-            {row.map((filled, i) => (
+            {row.map(({ active }, i) => (
               <div
-                className={cx({ [styles.cell]: true, [styles.filled]: filled })}
+                className={cx({ [styles.cell]: true, [styles.filled]: active })}
                 key={i.toString()}
               />
             ))}
