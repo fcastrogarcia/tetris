@@ -1,32 +1,44 @@
-export type Shape = Coordinate[];
+export type Shape = { id: string; coordinates: Coordinate[] };
 
 export type Coordinate = { x: number; y: number };
 
 const shapes: Shape[] = [
-  [
-    { x: 3, y: 0 },
-    { x: 4, y: 0 },
-    { x: 5, y: 0 },
-    { x: 6, y: 0 },
-  ],
-  [
-    { x: 4, y: 0 },
-    { x: 5, y: 0 },
-    { x: 4, y: 1 },
-    { x: 5, y: 1 },
-  ],
-  [
-    { x: 4, y: 0 },
-    { x: 4, y: 1 },
-    { x: 4, y: 2 },
-    { x: 5, y: 2 },
-  ],
-  [
-    { x: 5, y: 0 },
-    { x: 5, y: 1 },
-    { x: 5, y: 2 },
-    { x: 4, y: 2 },
-  ],
+  {
+    id: "bar",
+    coordinates: [
+      { x: 3, y: 0 },
+      { x: 4, y: 0 },
+      { x: 5, y: 0 },
+      { x: 6, y: 0 },
+    ],
+  },
+  {
+    id: "square",
+    coordinates: [
+      { x: 4, y: 0 },
+      { x: 5, y: 0 },
+      { x: 4, y: 1 },
+      { x: 5, y: 1 },
+    ],
+  },
+  {
+    id: "l",
+    coordinates: [
+      { x: 4, y: 0 },
+      { x: 4, y: 1 },
+      { x: 4, y: 2 },
+      { x: 5, y: 2 },
+    ],
+  },
+  {
+    id: "j",
+    coordinates: [
+      { x: 5, y: 0 },
+      { x: 5, y: 1 },
+      { x: 5, y: 2 },
+      { x: 4, y: 2 },
+    ],
+  },
 ];
 
 export function getNextShape() {
@@ -34,5 +46,9 @@ export function getNextShape() {
 }
 
 export function getDeepestYCoordinate(shape: Shape) {
-  return Math.max(...shape.map((coord) => coord.y));
+  return Math.max(...shape.coordinates.map((coord) => coord.y));
+}
+
+export function incrementYCoordinates(coordinates: Coordinate[]) {
+  return coordinates.map((coords) => ({ ...coords, y: coords.y + 1 }));
 }

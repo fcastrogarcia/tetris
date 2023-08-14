@@ -2,7 +2,7 @@
 
 import { useEffect, useReducer } from "react";
 import initialLayout from "./layout.json";
-import { getNextShape, getDeepestYCoordinate } from "./shapes";
+import { getNextShape, getDeepestYCoordinate, incrementYCoordinates } from "./shapes";
 import { getNextLayout, isNextRowFree } from "./tetrisLayout";
 import { State, Action, Actions } from "./types";
 
@@ -38,9 +38,10 @@ function reducer(state: State, action: Action) {
         return { ...state, plays: state.plays + 1 };
       }
 
-      const nextShape = state.currentShape.map((coord) => {
-        return { ...coord, y: coord.y + 1 };
-      });
+      const nextShape = {
+        ...state.currentShape,
+        coordinates: incrementYCoordinates(state.currentShape.coordinates),
+      };
 
       const layout = getNextLayout(state.layout, state.currentShape, false);
 
@@ -66,7 +67,7 @@ export function useTetris() {
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch({ type: Actions.GoDown });
-    }, 200);
+    }, 300);
     return () => clearInterval(interval);
   }, []);
 

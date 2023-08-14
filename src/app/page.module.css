@@ -5,6 +5,7 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  background: #fafafa;
 }
 
 .row {
@@ -14,10 +15,24 @@
 .cell {
   width: 40px;
   height: 40px;
-  background: white;
-  border: 1px solid black;
+  background: rgba(0, 0, 0, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cell.filled {
   background: rgb(14, 14, 14);
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+.cell.square {
+  background: yellowgreen;
+}
+
+.cell.bar {
+  background: blue;
+}
+.cell.l {
+  background: salmon;
+}
+.cell.j {
+  background: slateblue;
 }
