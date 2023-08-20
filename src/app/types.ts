@@ -5,6 +5,8 @@ export type State = {
   layout: Layout;
   currentShape: Shape | null;
   plays: number;
+  playing: boolean;
+  gameOver: boolean;
 };
 
 export enum Actions {
@@ -20,3 +22,5 @@ export type Action =
   | {
       type: Actions.GoDown;
     };
+
+export type UseTetrisProps = {};

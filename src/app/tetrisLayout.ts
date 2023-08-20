@@ -1,9 +1,12 @@
 import { Shape, getDeepestYCoordinate } from "./shapes";
+import { cloneDeep } from "lodash";
 
 export type Layout = { id: string | null; active: boolean }[][];
 
+export const LAYOUT_LIMBO = 3;
+
 export function getNextLayout(layout: Layout, shape: Shape, state: boolean) {
-  const nextLayout = [...layout];
+  const nextLayout = cloneDeep(layout);
 
   shape.coordinates.forEach((coordinate) => {
     nextLayout[coordinate.y][coordinate.x].active = state;

@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
+import { LAYOUT_LIMBO } from "./tetrisLayout";
 import { useTetris } from "./useTetris";
 import cx from "classnames";
 
@@ -18,16 +19,17 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div>
-        {layout.map((row, i) => (
-          <div className={styles.row} key={i.toString()}>
-            {row.map((shape, i) => (
+        {layout.map((row, rowIndex) => (
+          <div className={styles.row} key={rowIndex.toString()}>
+            {row.map((shape, columnIndex) => (
               <div
                 className={cx({
                   [styles.cell]: true,
                   [styles.filled]: shape.active,
+                  [styles.hidden]: rowIndex < LAYOUT_LIMBO,
                   [getShapeStyle(shape?.id)]: true,
                 })}
-                key={i.toString()}
+                key={columnIndex.toString()}
               />
             ))}
           </div>
