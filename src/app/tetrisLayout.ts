@@ -53,6 +53,7 @@ export function isNextRightColumnFree(layout: Layout, shape: Shape) {
 
   return isFree;
 }
+
 export function isNextLeftColumnFree(layout: Layout, shape: Shape) {
   let isFree = true;
 

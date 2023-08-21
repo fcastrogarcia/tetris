@@ -142,6 +142,9 @@ export function useTetris() {
       case "ArrowLeft":
         dispatch({ type: Actions.GoLeft });
         break;
+      case "ArrowDown":
+        dispatch({ type: Actions.GoDown });
+        break;
       default:
         return null;
     }
