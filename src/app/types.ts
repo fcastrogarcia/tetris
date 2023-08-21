@@ -12,6 +12,7 @@ export type State = {
 export enum Actions {
   SetShape = "SET_SHAPE",
   GoDown = "GO_DOWN",
+  MoveOnX = "MOVE_ON_X",
 }
 
 export type Action =
@@ -21,6 +22,10 @@ export type Action =
     }
   | {
       type: Actions.GoDown;
+    }
+  | {
+      type: Actions.MoveOnX;
+      payload: "right" | "left";
     };
 
 export type UseTetrisProps = {};

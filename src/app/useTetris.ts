@@ -2,7 +2,13 @@
 
 import { useEffect, useReducer } from "react";
 import initialLayout from "./layout.json";
-import { getNextShape, incrementYCoordinates, hasGotToTheTop, hasGotToTheBottom } from "./shapes";
+import {
+  getNextShape,
+  incrementYCoordinates,
+  hasGotToTheTop,
+  hasGotToTheBottom,
+  translateOnX,
+} from "./shapes";
 import { getNextLayout, isNextRowFree } from "./tetrisLayout";
 import { State, Action, Actions } from "./types";
 
@@ -16,9 +22,6 @@ const initialState: State = {
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    // goRight
-    // goLeft
-
     case Actions.SetShape:
       return {
         ...state,
@@ -44,6 +47,29 @@ function reducer(state: State, action: Action) {
       const nextShape = {
         ...state.currentShape,
         coordinates: incrementYCoordinates(state.currentShape.coordinates),
+      };
+
+      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+
+      return {
+        ...state,
+        currentShape: nextShape,
+        layout: getNextLayout(reversedLayout, nextShape, true),
+      };
+    }
+
+    case Actions.MoveOnX: {
+      if (!state.currentShape) {
+        return state;
+      }
+
+      const nextShape = {
+        ...state.currentShape,
+        coordinates: translateOnX(
+          state.currentShape.coordinates,
+          state.layout[0].length,
+          action.payload
+        ),
       };
 
       const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
@@ -82,7 +108,23 @@ export function useTetris() {
     }
   }, [state.gameOver]);
 
-  // useEffect on keystroke that would call goRight or goLeft
+  function handleKeyDown(e: KeyboardEvent) {
+    switch (e.key) {
+      case "ArrowRight":
+        dispatch({ type: Actions.MoveOnX, payload: "right" });
+        break;
+      case "ArrowLeft":
+        dispatch({ type: Actions.MoveOnX, payload: "left" });
+        break;
+      default:
+        return null;
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return state;
 }

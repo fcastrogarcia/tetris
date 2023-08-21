@@ -64,3 +64,28 @@ export function hasGotToTheTop(shape: Shape) {
 export function hasGotToTheBottom(shape: Shape, layoutLength: number) {
   return getDeepestYCoordinate(shape) === layoutLength - 1;
 }
+
+function hasHitTheRightWall(coordinates: Coordinates, layoutWidth: number) {
+  return coordinates.some(({ x }) => x === layoutWidth - 1);
+}
+
+function hasHitTheLeftWall(coordinates: Coordinates) {
+  return coordinates.some(({ x }) => x === 0);
+}
+
+export function translateOnX(
+  coordinates: Coordinates,
+  layoutWidth: number,
+  direction: "right" | "left"
+) {
+  if (hasHitTheRightWall(coordinates, layoutWidth) && direction === "right") {
+    return coordinates;
+  }
+  if (hasHitTheLeftWall(coordinates) && direction === "left") {
+    return coordinates;
+  }
+
+  const nextMove = direction === "right" ? 1 : -1;
+
+  return coordinates.map((coords) => ({ ...coords, x: coords.x + nextMove }));
+}
