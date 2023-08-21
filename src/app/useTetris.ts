@@ -9,7 +9,12 @@ import {
   hasGotToTheBottom,
   translateOnX,
 } from "./shapes";
-import { getNextLayout, isNextRowFree } from "./tetrisLayout";
+import {
+  getNextLayout,
+  isNextLeftColumnFree,
+  isNextRightColumnFree,
+  isNextRowFree,
+} from "./tetrisLayout";
 import { State, Action, Actions } from "./types";
 
 const initialState: State = {
@@ -58,18 +63,39 @@ function reducer(state: State, action: Action) {
       };
     }
 
-    case Actions.MoveOnX: {
+    case Actions.GoRight: {
       if (!state.currentShape) {
+        return state;
+      }
+      if (!isNextRightColumnFree(state.layout, state.currentShape)) {
         return state;
       }
 
       const nextShape = {
         ...state.currentShape,
-        coordinates: translateOnX(
-          state.currentShape.coordinates,
-          state.layout[0].length,
-          action.payload
-        ),
+        coordinates: translateOnX(state.currentShape.coordinates, "right"),
+      };
+
+      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+
+      return {
+        ...state,
+        currentShape: nextShape,
+        layout: getNextLayout(reversedLayout, nextShape, true),
+      };
+    }
+
+    case Actions.GoLeft: {
+      if (!state.currentShape) {
+        return state;
+      }
+      if (!isNextLeftColumnFree(state.layout, state.currentShape)) {
+        return state;
+      }
+
+      const nextShape = {
+        ...state.currentShape,
+        coordinates: translateOnX(state.currentShape.coordinates, "left"),
       };
 
       const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
@@ -111,10 +137,10 @@ export function useTetris() {
   function handleKeyDown(e: KeyboardEvent) {
     switch (e.key) {
       case "ArrowRight":
-        dispatch({ type: Actions.MoveOnX, payload: "right" });
+        dispatch({ type: Actions.GoRight });
         break;
       case "ArrowLeft":
-        dispatch({ type: Actions.MoveOnX, payload: "left" });
+        dispatch({ type: Actions.GoLeft });
         break;
       default:
         return null;

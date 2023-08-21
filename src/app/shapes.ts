@@ -6,6 +6,8 @@ export type Coordinate = { x: number; y: number };
 
 export type Coordinates = Coordinate[];
 
+export type Direction = "left" | "right";
+
 const shapes: Shape[] = [
   {
     id: "bar",
@@ -45,8 +47,16 @@ const shapes: Shape[] = [
   },
 ];
 
-export function getDeepestYCoordinate(shape: Shape) {
-  return Math.max(...shape.coordinates.map((coord) => coord.y));
+export function getDeepestYCoord(shape: Shape) {
+  return Math.max(...shape.coordinates.map(({ y }) => y));
+}
+
+export function getRightestCoord(shape: Shape) {
+  return Math.max(...shape.coordinates.map(({ x }) => x));
+}
+
+export function getLeftistCoord(shape: Shape) {
+  return Math.min(...shape.coordinates.map(({ x }) => x));
 }
 
 export function getNextShape() {
@@ -62,30 +72,21 @@ export function hasGotToTheTop(shape: Shape) {
 }
 
 export function hasGotToTheBottom(shape: Shape, layoutLength: number) {
-  return getDeepestYCoordinate(shape) === layoutLength - 1;
+  return getDeepestYCoord(shape) === layoutLength - 1;
 }
 
-function hasHitTheRightWall(coordinates: Coordinates, layoutWidth: number) {
+export function hasHitTheRightWall(coordinates: Coordinates, layoutWidth: number) {
   return coordinates.some(({ x }) => x === layoutWidth - 1);
 }
 
-function hasHitTheLeftWall(coordinates: Coordinates) {
+export function hasHitTheLeftWall(coordinates: Coordinates) {
   return coordinates.some(({ x }) => x === 0);
 }
 
-export function translateOnX(
-  coordinates: Coordinates,
-  layoutWidth: number,
-  direction: "right" | "left"
-) {
-  if (hasHitTheRightWall(coordinates, layoutWidth) && direction === "right") {
-    return coordinates;
-  }
-  if (hasHitTheLeftWall(coordinates) && direction === "left") {
-    return coordinates;
-  }
+function getNextMoveOnX(direction: Direction) {
+  return direction === "right" ? 1 : -1;
+}
 
-  const nextMove = direction === "right" ? 1 : -1;
-
-  return coordinates.map((coords) => ({ ...coords, x: coords.x + nextMove }));
+export function translateOnX(coordinates: Coordinates, direction: Direction) {
+  return coordinates.map((coords) => ({ ...coords, x: coords.x + getNextMoveOnX(direction) }));
 }
