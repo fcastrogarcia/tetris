@@ -1,12 +1,12 @@
 import {
-  Shape,
   getDeepestYCoord,
   hasHitTheRightWall,
   hasHitTheLeftWall,
   getRightestCoord,
   getLeftistCoord,
-} from "./shapes";
+} from "./shapes/shapes";
 import { cloneDeep } from "lodash";
+import { Shape } from "./shapes/types";
 
 export type Layout = { id: string | null; active: boolean }[][];
 

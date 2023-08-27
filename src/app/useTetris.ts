@@ -8,7 +8,8 @@ import {
   hasGotToTheTop,
   hasGotToTheBottom,
   translateOnX,
-} from "./shapes";
+  rotateShape,
+} from "./shapes/shapes";
 import {
   getNextLayout,
   isNextLeftColumnFree,
@@ -107,6 +108,21 @@ function reducer(state: State, action: Action) {
       };
     }
 
+    case Actions.Rotate: {
+      if (!state.currentShape) {
+        return state;
+      }
+      const nextShape = rotateShape(state.currentShape);
+
+      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+
+      return {
+        ...state,
+        currentShape: nextShape,
+        layout: getNextLayout(reversedLayout, nextShape, true),
+      };
+    }
+
     default:
       return state;
   }
@@ -144,6 +160,9 @@ export function useTetris() {
         break;
       case "ArrowDown":
         dispatch({ type: Actions.GoDown });
+        break;
+      case "ArrowUp":
+        dispatch({ type: Actions.Rotate });
         break;
       default:
         return null;
