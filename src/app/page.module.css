@@ -36,6 +36,9 @@
 .cell.j {
   background: slateblue;
 }
+.cell.s {
+  background: orangered;
+}
 
 .cell.hidden {
   background: #fafafa;
