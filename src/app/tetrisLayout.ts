@@ -69,3 +69,21 @@ export function isNextLeftColumnFree(layout: Layout, shape: Shape) {
 
   return isFree;
 }
+
+function hasExceededRightLimit(shape: Shape, rightLimit: number) {
+  return shape.coordinates.some(({ x }) => x > rightLimit);
+}
+
+function hasExceededLeftLimit(shape: Shape) {
+  return shape.coordinates.some(({ x }) => Math.sign(x) === -1);
+}
+
+export function hasExceededLayout(shape: Shape, layout: Layout): boolean {
+  if (hasExceededRightLimit(shape, layout[0].length - 1)) {
+    return true;
+  }
+  if (hasExceededLeftLimit(shape)) {
+    return true;
+  }
+  return false;
+}

@@ -12,6 +12,7 @@ import {
 } from "./shapes/shapes";
 import {
   getNextLayout,
+  hasExceededLayout,
   isNextLeftColumnFree,
   isNextRightColumnFree,
   isNextRowFree,
@@ -113,9 +114,11 @@ function reducer(state: State, action: Action) {
         return state;
       }
 
-      // debería validar si puede rotar antes de rotar
-
       const nextShape = rotateShape(state.currentShape);
+
+      if (hasExceededLayout(nextShape, state.layout)) {
+        return state;
+      }
 
       const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
 
