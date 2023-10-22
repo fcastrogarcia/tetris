@@ -5,8 +5,9 @@ import { J, rotateJ } from "./j";
 import { L, rotateL } from "./l";
 import { Square } from "./square";
 import { S } from "./s";
+import { Z } from "./z";
 
-const shapes: Shape[] = [Bar, J, L, S, Square];
+const shapes: Shape[] = [Bar, J, L, S, Z, Square];
 
 export function getDeepestYCoord(shape: Shape) {
   return Math.max(...shape.coordinates.map(({ y }) => y));

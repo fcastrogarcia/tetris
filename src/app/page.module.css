@@ -39,6 +39,9 @@
 .cell.s {
   background: orangered;
 }
+.cell.z {
+  background: mediumvioletred;
+}
 
 .cell.hidden {
   background: #fafafa;
