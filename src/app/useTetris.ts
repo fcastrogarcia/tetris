@@ -157,6 +157,8 @@ export function useTetris() {
   }, [state.gameOver]);
 
   function handleKeyDown(e: KeyboardEvent) {
+    e.preventDefault();
+
     switch (e.key) {
       case "ArrowRight":
         dispatch({ type: Actions.GoRight });
