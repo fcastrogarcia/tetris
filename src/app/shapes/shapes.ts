@@ -2,26 +2,18 @@ import { LAYOUT_LIMBO } from "../tetrisLayout";
 import { Shape, Coordinates, Direction } from "./types";
 import { Bar, rotateBar } from "./bar";
 import { J, rotateJ } from "./j";
+import { L } from "./l";
 
 const shapes: Shape[] = [
   Bar,
   J,
+  L,
   {
     id: "square",
     position: 1,
     coordinates: [
       { x: 4, y: 1 },
       { x: 5, y: 1 },
-      { x: 4, y: 2 },
-      { x: 5, y: 2 },
-    ],
-  },
-  {
-    id: "l",
-    position: 1,
-    coordinates: [
-      { x: 4, y: 0 },
-      { x: 4, y: 1 },
       { x: 4, y: 2 },
       { x: 5, y: 2 },
     ],
