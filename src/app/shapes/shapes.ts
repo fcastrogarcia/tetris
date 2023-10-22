@@ -1,12 +1,14 @@
 import { LAYOUT_LIMBO } from "../tetrisLayout";
 import { Shape, Coordinates, Direction } from "./types";
 import { Bar, rotateBar } from "./bar";
-import { rotateJ } from "./j";
+import { J, rotateJ } from "./j";
 
 const shapes: Shape[] = [
   Bar,
+  J,
   {
     id: "square",
+    position: 1,
     coordinates: [
       { x: 4, y: 1 },
       { x: 5, y: 1 },
@@ -16,20 +18,12 @@ const shapes: Shape[] = [
   },
   {
     id: "l",
+    position: 1,
     coordinates: [
       { x: 4, y: 0 },
       { x: 4, y: 1 },
       { x: 4, y: 2 },
       { x: 5, y: 2 },
-    ],
-  },
-  {
-    id: "j",
-    coordinates: [
-      { x: 5, y: 0 },
-      { x: 5, y: 1 },
-      { x: 5, y: 2 },
-      { x: 4, y: 2 },
     ],
   },
 ];
@@ -81,9 +75,9 @@ export function translateOnX(coordinates: Coordinates, direction: Direction) {
 export function rotateShape(shape: Shape) {
   switch (shape.id) {
     case "bar":
-      return { ...shape, coordinates: rotateBar(shape.coordinates) };
+      return rotateBar(shape);
     case "j":
-      return { ...shape, coordinates: rotateJ(shape.coordinates) };
+      return rotateJ(shape);
     default:
       return shape;
   }

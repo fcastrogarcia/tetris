@@ -1,4 +1,4 @@
-export type Shape = { id: string; coordinates: Coordinates };
+export type Shape = { id: string; position: number; coordinates: Coordinates };
 
 export type Coordinate = { x: number; y: number };
 

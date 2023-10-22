@@ -112,6 +112,9 @@ function reducer(state: State, action: Action) {
       if (!state.currentShape) {
         return state;
       }
+
+      // debería validar si puede rotar antes de rotar
+
       const nextShape = rotateShape(state.currentShape);
 
       const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
