@@ -2,7 +2,7 @@ import { LAYOUT_LIMBO } from "../tetrisLayout";
 import { Shape, Coordinates, Direction } from "./types";
 import { Bar, rotateBar } from "./bar";
 import { J, rotateJ } from "./j";
-import { L } from "./l";
+import { L, rotateL } from "./l";
 
 const shapes: Shape[] = [
   Bar,
@@ -70,6 +70,8 @@ export function rotateShape(shape: Shape) {
       return rotateBar(shape);
     case "j":
       return rotateJ(shape);
+    case "l":
+      return rotateL(shape);
     default:
       return shape;
   }
