@@ -4,8 +4,8 @@ import { Bar, rotateBar } from "./bar";
 import { J, rotateJ } from "./j";
 import { L, rotateL } from "./l";
 import { Square } from "./square";
-import { S } from "./s";
-import { Z } from "./z";
+import { S, rotateS } from "./s";
+import { Z, rotateZ } from "./z";
 
 const shapes: Shape[] = [Bar, J, L, S, Z, Square];
 
@@ -61,6 +61,10 @@ export function rotateShape(shape: Shape) {
       return rotateJ(shape);
     case "l":
       return rotateL(shape);
+    case "s":
+      return rotateS(shape);
+    case "z":
+      return rotateZ(shape);
     default:
       return shape;
   }
