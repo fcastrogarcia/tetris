@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useReducer } from "react";
-import initialLayout from "./layout.json";
+import initialLayout from "./tetrisLayout/layout.json";
 import {
   getNextShape,
   incrementYCoordinates,

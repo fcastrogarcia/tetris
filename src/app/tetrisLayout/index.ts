@@ -4,9 +4,9 @@ import {
   hasHitTheLeftWall,
   getRightestCoord,
   getLeftistCoord,
-} from "./shapes/shapes";
+} from "../shapes/shapes";
 import { cloneDeep } from "lodash";
-import { Shape } from "./shapes/types";
+import { Shape } from "../shapes/types";
 
 export type Layout = { id: string | null; active: boolean }[][];
 

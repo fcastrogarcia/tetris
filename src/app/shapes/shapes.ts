@@ -9,6 +9,10 @@ import { Z, rotateZ } from "./z";
 
 const shapes: Shape[] = [Bar, J, L, S, Z, Square];
 
+export function getNextShape() {
+  return shapes[Math.floor(Math.random() * shapes.length)];
+}
+
 export function getDeepestYCoord(shape: Shape) {
   return Math.max(...shape.coordinates.map(({ y }) => y));
 }
@@ -19,10 +23,6 @@ export function getRightestCoord(shape: Shape) {
 
 export function getLeftistCoord(shape: Shape) {
   return Math.min(...shape.coordinates.map(({ x }) => x));
-}
-
-export function getNextShape() {
-  return shapes[Math.floor(Math.random() * shapes.length)];
 }
 
 export function incrementYCoordinates(coordinates: Coordinates) {
