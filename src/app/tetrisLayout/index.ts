@@ -1,5 +1,4 @@
 import {
-  getDeepestYCoord,
   hasHitTheRightWall,
   hasHitTheLeftWall,
   getRightestCoord,
@@ -24,18 +23,12 @@ export function getNextLayout(layout: Layout, shape: Shape, state: boolean) {
 }
 
 export function isNextRowFree(layout: Layout, shape: Shape) {
-  let isFree = true;
-  const deepestY = getDeepestYCoord(shape);
-
-  shape.coordinates.forEach((coordinate) => {
-    try {
-      if (layout[coordinate.y + 1][coordinate.x].active && coordinate.y === deepestY) {
-        isFree = false;
-      }
-    } catch {}
+  return !shape.coordinates.some((coordinate) => {
+    return (
+      layout[coordinate.y + 1][coordinate.x].active &&
+      !shape.coordinates.find(({ x, y }) => coordinate.x === x && coordinate.y + 1 === y)
+    );
   });
-
-  return isFree;
 }
 
 export function isNextRightColumnFree(layout: Layout, shape: Shape) {
