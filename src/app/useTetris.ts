@@ -16,6 +16,7 @@ import {
   isNextLeftColumnFree,
   isNextRightColumnFree,
   isNextRowFree,
+  willClashWithOtherShape,
 } from "./tetrisLayout";
 import { State, Action, Actions } from "./types";
 
@@ -117,6 +118,9 @@ function reducer(state: State, action: Action) {
       const nextShape = rotateShape(state.currentShape);
 
       if (hasExceededLayout(nextShape, state.layout)) {
+        return state;
+      }
+      if (willClashWithOtherShape(nextShape, state.layout)) {
         return state;
       }
 

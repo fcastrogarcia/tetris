@@ -7,7 +7,7 @@ import {
 import { cloneDeep } from "lodash";
 import { Shape } from "../shapes/types";
 
-export type Layout = { id: string | null; active: boolean }[][];
+export type Layout = { id: number | null; type: string | null; active: boolean }[][];
 
 export const LAYOUT_LIMBO = 3;
 
@@ -17,6 +17,7 @@ export function getNextLayout(layout: Layout, shape: Shape, state: boolean) {
   shape.coordinates.forEach((coordinate) => {
     nextLayout[coordinate.y][coordinate.x].active = state;
     nextLayout[coordinate.y][coordinate.x].id = state ? shape.id : null;
+    nextLayout[coordinate.y][coordinate.x].type = state ? shape.type : null;
   });
 
   return nextLayout;
@@ -79,4 +80,12 @@ export function hasExceededLayout(shape: Shape, layout: Layout): boolean {
     return true;
   }
   return false;
+}
+
+export function willClashWithOtherShape(shape: Shape, layout: Layout): boolean {
+  return shape.coordinates.some(({ x, y }) => {
+    if (layout[y][x].active && layout[y][x].id !== shape.id) {
+      return true;
+    }
+  });
 }
