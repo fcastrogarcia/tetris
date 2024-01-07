@@ -5,10 +5,10 @@ import { LAYOUT_LIMBO } from "./tetrisLayout";
 import { useTetris } from "./useTetris";
 import cx from "classnames";
 
-function getShapeStyle(id: string | null) {
+function getShapeStyle(type: string | null) {
   let style = "";
-  if (id) {
-    style = styles[id];
+  if (type) {
+    style = styles[type];
   }
   return style;
 }
@@ -27,7 +27,7 @@ export default function Home() {
                   [styles.cell]: true,
                   [styles.filled]: shape.active,
                   [styles.hidden]: rowIndex < LAYOUT_LIMBO,
-                  [getShapeStyle(shape?.id)]: true,
+                  [getShapeStyle(shape?.type)]: true,
                 })}
                 key={columnIndex.toString()}
               />

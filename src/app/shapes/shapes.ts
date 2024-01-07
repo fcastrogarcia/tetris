@@ -1,5 +1,5 @@
 import { LAYOUT_LIMBO } from "../tetrisLayout";
-import { Shape, Coordinates, Direction } from "./types";
+import { Shape, Coordinates, Direction, ShapeTypes } from "./types";
 import { Bar, rotateBar } from "./bar";
 import { J, rotateJ } from "./j";
 import { L, rotateL } from "./l";
@@ -7,10 +7,13 @@ import { Square } from "./square";
 import { S, rotateS } from "./s";
 import { Z, rotateZ } from "./z";
 
-const shapes: Shape[] = [Bar, J, L, S, Z, Square];
+const shapes: Function[] = [Bar, J, L, S, Z, Square];
+
+let shapeCount = 0;
 
 export function getNextShape() {
-  return shapes[Math.floor(Math.random() * shapes.length)];
+  shapeCount++;
+  return shapes[Math.floor(Math.random() * shapes.length)](shapeCount);
 }
 
 export function getDeepestYCoord(shape: Shape) {
@@ -54,16 +57,16 @@ export function translateOnX(coordinates: Coordinates, direction: Direction) {
 }
 
 export function rotateShape(shape: Shape) {
-  switch (shape.id) {
-    case "bar":
+  switch (shape.type) {
+    case ShapeTypes.Bar:
       return rotateBar(shape);
-    case "j":
+    case ShapeTypes.J:
       return rotateJ(shape);
-    case "l":
+    case ShapeTypes.L:
       return rotateL(shape);
-    case "s":
+    case ShapeTypes.S:
       return rotateS(shape);
-    case "z":
+    case ShapeTypes.Z:
       return rotateZ(shape);
     default:
       return shape;

@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import { Shape } from "./types";
+import { Shape, ShapeTypes } from "./types";
 
 /*
   POSITIONS:
@@ -18,16 +18,19 @@ import { Shape } from "./types";
       * * *
           *
 */
-export const J: Shape = {
-  id: "j",
-  position: 1,
-  coordinates: [
-    { x: 5, y: 0 },
-    { x: 5, y: 1 },
-    { x: 5, y: 2 },
-    { x: 4, y: 2 },
-  ],
-};
+export function J(id: number): Shape {
+  return {
+    id,
+    type: ShapeTypes.J,
+    position: 1,
+    coordinates: [
+      { x: 5, y: 0 },
+      { x: 5, y: 1 },
+      { x: 5, y: 2 },
+      { x: 4, y: 2 },
+    ],
+  };
+}
 
 export function rotateJ(shape: Shape): Shape {
   const nextShape = cloneDeep(shape);

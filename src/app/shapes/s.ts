@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import { Shape } from "./types";
+import { Shape, ShapeTypes } from "./types";
 
 /*
   POSITIONS:
@@ -11,16 +11,19 @@ import { Shape } from "./types";
       * *
         *     
 */
-export const S: Shape = {
-  id: "s",
-  position: 1,
-  coordinates: [
-    { x: 5, y: 0 },
-    { x: 4, y: 0 },
-    { x: 4, y: 1 },
-    { x: 3, y: 1 },
-  ],
-};
+export function S(id: number): Shape {
+  return {
+    id,
+    type: ShapeTypes.S,
+    position: 1,
+    coordinates: [
+      { x: 5, y: 0 },
+      { x: 4, y: 0 },
+      { x: 4, y: 1 },
+      { x: 3, y: 1 },
+    ],
+  };
+}
 
 export function rotateS(shape: Shape): Shape {
   const nextShape = cloneDeep(shape);
