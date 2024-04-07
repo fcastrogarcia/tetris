@@ -1,4 +1,4 @@
-import { Layout } from "./tetrisLayout";
+import { Layout } from "./tetrisLayout/types";
 import { Shape } from "./shapes/types";
 
 export type State = {
@@ -15,6 +15,7 @@ export enum Actions {
   GoRight = "GO_RIGHT",
   GoLeft = "GO_LEFT",
   Rotate = "ROTATE",
+  isRowComplete = "IS_ROW_COMPLETE",
 }
 
 export type Action =
@@ -22,6 +23,7 @@ export type Action =
   | { type: Actions.GoDown }
   | { type: Actions.GoRight }
   | { type: Actions.GoLeft }
-  | { type: Actions.Rotate };
+  | { type: Actions.Rotate }
+  | { type: Actions.isRowComplete };
 
 export type UseTetrisProps = {};

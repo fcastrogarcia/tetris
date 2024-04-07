@@ -11,6 +11,8 @@ import {
   rotateShape,
 } from "./shapes/shapes";
 import {
+  deleteRowByIndex,
+  getCompletedRowsIndexList,
   getNextLayout,
   hasExceededLayout,
   isNextLeftColumnFree,
@@ -133,6 +135,16 @@ function reducer(state: State, action: Action) {
       };
     }
 
+    case Actions.isRowComplete: {
+      const rowsToErase = getCompletedRowsIndexList(state.layout);
+
+      if (rowsToErase.length) {
+        return { ...state, layout: deleteRowByIndex(state.layout, rowsToErase) };
+      }
+
+      return state;
+    }
+
     default:
       return state;
   }
@@ -140,25 +152,6 @@ function reducer(state: State, action: Action) {
 
 export function useTetris() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    dispatch({ type: Actions.SetShape, payload: getNextShape() });
-  }, [state.plays]);
-
-  useEffect(() => {
-    if (state.playing) {
-      const interval = setInterval(() => {
-        dispatch({ type: Actions.GoDown });
-      }, 300);
-      return () => clearInterval(interval);
-    }
-  }, [state.playing]);
-
-  useEffect(() => {
-    if (state.gameOver) {
-      alert("Game is fucking over");
-    }
-  }, [state.gameOver]);
 
   function handleKeyDown(e: KeyboardEvent) {
     e.preventDefault();
@@ -180,6 +173,29 @@ export function useTetris() {
         return null;
     }
   }
+
+  useEffect(() => {
+    dispatch({ type: Actions.isRowComplete });
+  }, [state.plays]);
+
+  useEffect(() => {
+    dispatch({ type: Actions.SetShape, payload: getNextShape() });
+  }, [state.plays]);
+
+  useEffect(() => {
+    if (state.playing) {
+      const interval = setInterval(() => {
+        dispatch({ type: Actions.GoDown });
+      }, 300);
+      return () => clearInterval(interval);
+    }
+  }, [state.playing]);
+
+  useEffect(() => {
+    if (state.gameOver) {
+      alert("Game is fucking over");
+    }
+  }, [state.gameOver]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);

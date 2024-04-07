@@ -4,12 +4,12 @@ import {
   getRightestCoord,
   getLeftistCoord,
 } from "../shapes/shapes";
-import { cloneDeep } from "lodash";
+import { cloneDeep, times as lodashTimes } from "lodash";
 import { Shape } from "../shapes/types";
 
-export type Layout = { id: number | null; type: string | null; active: boolean }[][];
-
 export const LAYOUT_LIMBO = 3;
+
+import { Layout, Row } from "./types";
 
 export function getNextLayout(layout: Layout, shape: Shape, state: boolean) {
   const nextLayout = cloneDeep(layout);
@@ -88,4 +88,49 @@ export function willClashWithOtherShape(shape: Shape, layout: Layout): boolean {
       return true;
     }
   });
+}
+
+export function getCompletedRowsIndexList(layout: Layout): number[] {
+  return layout.reduce((indexList, row, index) => {
+    if (isRowCompleted(row)) {
+      indexList.push(index);
+    }
+    return indexList;
+  }, [] as number[]);
+}
+
+export function isRowCompleted(row: Row) {
+  return row.every((cell) => cell.active);
+}
+
+function getDefaultRow() {
+  return [
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+    { id: null, active: false, type: null },
+  ];
+}
+
+function getDefaultRows(times: number = 1) {
+  return lodashTimes(times, getDefaultRow);
+}
+
+export function deleteRowByIndex(layout: Layout, indexes: number[]): Layout {
+  const nextLayout = cloneDeep(layout);
+
+  indexes
+    .sort()
+    .reverse()
+    .forEach((index) => nextLayout.splice(index, 1));
+
+  nextLayout.unshift(...getDefaultRows(indexes.length));
+
+  return nextLayout;
 }
