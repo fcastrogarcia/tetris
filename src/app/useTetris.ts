@@ -22,13 +22,13 @@ import {
   willClashWithOtherShape,
 } from "./tetrisLayout";
 import { State, Action, Actions } from "./types";
-import { eraseFirstAndAppendOne, replaceFirst } from "./utils";
+import { deleteFirstAndAppendOne, replaceFirst } from "./utils";
 
 const initialState: State = {
   layout: initialLayout,
   shapes: getShapes(2),
   plays: 1,
-  playing: true,
+  playing: false,
   gameOver: false,
 };
 
@@ -37,7 +37,7 @@ function reducer(state: State, action: Action) {
 
   switch (action.type) {
     case Actions.SetShape:
-      const nextShapes = eraseFirstAndAppendOne(state.shapes, action.payload);
+      const nextShapes = deleteFirstAndAppendOne(state.shapes, action.payload);
 
       return {
         ...state,
@@ -151,6 +151,10 @@ function reducer(state: State, action: Action) {
       return state;
     }
 
+    case Actions.toggleGameAction: {
+      return { ...state, playing: !state };
+    }
+
     default:
       return state;
   }
@@ -178,6 +182,10 @@ export function useTetris() {
       default:
         return null;
     }
+  }
+
+  function toggleGameAction() {
+    dispatch({ type: Actions.toggleGameAction });
   }
 
   useEffect(() => {
@@ -208,5 +216,5 @@ export function useTetris() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  return state;
+  return { ...state, toggleGameAction };
 }

@@ -1,7 +1,7 @@
 .main {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
@@ -10,6 +10,10 @@
 
 .row {
   display: flex;
+}
+
+.side-panel {
+  margin-left: 36px;
 }
 
 .cell {
@@ -46,4 +50,7 @@
 .cell.hidden {
   background: #fafafa;
   border: none;
+}
+
+.preview {
 }

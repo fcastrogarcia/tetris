@@ -16,6 +16,7 @@ export enum Actions {
   GoLeft = "GO_LEFT",
   Rotate = "ROTATE",
   isRowComplete = "IS_ROW_COMPLETE",
+  toggleGameAction = "TOGGLE_GAME_ACTION",
 }
 
 export type Action =
@@ -24,6 +25,7 @@ export type Action =
   | { type: Actions.GoRight }
   | { type: Actions.GoLeft }
   | { type: Actions.Rotate }
-  | { type: Actions.isRowComplete };
+  | { type: Actions.isRowComplete }
+  | { type: Actions.toggleGameAction };
 
 export type UseTetrisProps = {};

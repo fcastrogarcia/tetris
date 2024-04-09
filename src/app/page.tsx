@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
+import getPreview from "./preview";
 import { LAYOUT_LIMBO } from "./tetrisLayout";
 import { useTetris } from "./useTetris";
 import cx from "classnames";
@@ -14,7 +15,7 @@ function getShapeStyle(type: string | null) {
 }
 
 export default function Home() {
-  const { layout } = useTetris();
+  const { layout, shapes, toggleGameAction, playing } = useTetris();
 
   return (
     <main className={styles.main}>
@@ -34,6 +35,10 @@ export default function Home() {
             ))}
           </div>
         ))}
+      </div>
+      <div className={styles["side-panel"]}>
+        <div className={styles.preview}>{getPreview(shapes[1].type)}</div>
+        <button onClick={toggleGameAction}>{playing ? "PAUSE" : "PLAY"}</button>
       </div>
     </main>
   );

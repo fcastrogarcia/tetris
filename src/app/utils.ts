@@ -3,7 +3,7 @@ export function replaceFirst(arr: any[], item: any) {
   return [item, ...rest];
 }
 
-export function eraseFirstAndAppendOne(arr: any[], item: any) {
+export function deleteFirstAndAppendOne(arr: any[], item: any) {
   const [, ...rest] = arr;
   return [...rest, item];
 }
