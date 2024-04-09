@@ -3,7 +3,7 @@ import { Shape } from "./shapes/types";
 
 export type State = {
   layout: Layout;
-  currentShape: Shape | null;
+  shapes: Shape[];
   plays: number;
   playing: boolean;
   gameOver: boolean;

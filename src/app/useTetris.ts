@@ -3,12 +3,13 @@
 import { useEffect, useReducer } from "react";
 import initialLayout from "./tetrisLayout/layout.json";
 import {
-  getNextShape,
   incrementYCoordinates,
   hasGotToTheTop,
   hasGotToTheBottom,
   translateOnX,
   rotateShape,
+  getShapes,
+  getNextShape,
 } from "./shapes/shapes";
 import {
   deleteRowByIndex,
@@ -21,103 +22,108 @@ import {
   willClashWithOtherShape,
 } from "./tetrisLayout";
 import { State, Action, Actions } from "./types";
+import { eraseFirstAndAppendOne, replaceFirst } from "./utils";
 
 const initialState: State = {
   layout: initialLayout,
-  currentShape: null,
+  shapes: getShapes(2),
   plays: 1,
   playing: true,
   gameOver: false,
 };
 
 function reducer(state: State, action: Action) {
+  const [currentShape] = state.shapes;
+
   switch (action.type) {
     case Actions.SetShape:
+      const nextShapes = eraseFirstAndAppendOne(state.shapes, action.payload);
+
       return {
         ...state,
-        layout: getNextLayout(state.layout, action.payload, true),
-        currentShape: action.payload,
+        layout: getNextLayout(state.layout, nextShapes[0], true),
+        shapes: nextShapes,
         playing: true,
       };
 
     case Actions.GoDown: {
-      if (!state.currentShape) {
+      if (!currentShape) {
         return state;
       }
-      if (hasGotToTheBottom(state.currentShape, state.layout.length)) {
+      if (hasGotToTheBottom(currentShape, state.layout.length)) {
         return { ...state, plays: state.plays + 1 };
       }
-      if (!isNextRowFree(state.layout, state.currentShape) && hasGotToTheTop(state.currentShape)) {
+      if (!isNextRowFree(state.layout, currentShape) && hasGotToTheTop(currentShape)) {
         return { ...state, playing: false, gameOver: true };
       }
-      if (!isNextRowFree(state.layout, state.currentShape)) {
+      if (!isNextRowFree(state.layout, currentShape)) {
         return { ...state, plays: state.plays + 1 };
       }
 
       const nextShape = {
-        ...state.currentShape,
-        coordinates: incrementYCoordinates(state.currentShape.coordinates),
+        ...currentShape,
+        coordinates: incrementYCoordinates(currentShape.coordinates),
       };
 
-      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+      const reversedLayout = getNextLayout(state.layout, currentShape, false);
 
       return {
         ...state,
-        currentShape: nextShape,
+        shapes: replaceFirst(state.shapes, nextShape),
         layout: getNextLayout(reversedLayout, nextShape, true),
       };
     }
 
     case Actions.GoRight: {
-      if (!state.currentShape) {
+      if (!currentShape) {
         return state;
       }
-      if (!isNextRightColumnFree(state.layout, state.currentShape)) {
+      if (!isNextRightColumnFree(state.layout, currentShape)) {
         return state;
       }
 
       const nextShape = {
-        ...state.currentShape,
-        coordinates: translateOnX(state.currentShape.coordinates, "right"),
+        ...currentShape,
+        coordinates: translateOnX(currentShape.coordinates, "right"),
       };
 
-      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+      const reversedLayout = getNextLayout(state.layout, currentShape, false);
 
       return {
         ...state,
-        currentShape: nextShape,
+        shapes: replaceFirst(state.shapes, nextShape),
         layout: getNextLayout(reversedLayout, nextShape, true),
       };
     }
 
     case Actions.GoLeft: {
-      if (!state.currentShape) {
+      if (!currentShape) {
         return state;
       }
-      if (!isNextLeftColumnFree(state.layout, state.currentShape)) {
+      if (!isNextLeftColumnFree(state.layout, currentShape)) {
         return state;
       }
 
       const nextShape = {
-        ...state.currentShape,
-        coordinates: translateOnX(state.currentShape.coordinates, "left"),
+        ...currentShape,
+        coordinates: translateOnX(currentShape.coordinates, "left"),
       };
 
-      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+      const reversedLayout = getNextLayout(state.layout, currentShape, false);
 
       return {
         ...state,
-        currentShape: nextShape,
+        shapes: replaceFirst(state.shapes, nextShape),
         layout: getNextLayout(reversedLayout, nextShape, true),
       };
     }
 
     case Actions.Rotate: {
-      if (!state.currentShape) {
+      if (!currentShape) {
         return state;
       }
 
-      const nextShape = rotateShape(state.currentShape);
+      const nextShape = rotateShape(currentShape);
 
       if (hasExceededLayout(nextShape, state.layout)) {
         return state;
@@ -126,11 +132,11 @@ function reducer(state: State, action: Action) {
         return state;
       }
 
-      const reversedLayout = getNextLayout(state.layout, state.currentShape, false);
+      const reversedLayout = getNextLayout(state.layout, currentShape, false);
 
       return {
         ...state,
-        currentShape: nextShape,
+        shapes: replaceFirst(state.shapes, nextShape),
         layout: getNextLayout(reversedLayout, nextShape, true),
       };
     }

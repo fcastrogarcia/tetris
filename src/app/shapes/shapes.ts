@@ -6,14 +6,19 @@ import { L, rotateL } from "./l";
 import { Square } from "./square";
 import { S, rotateS } from "./s";
 import { Z, rotateZ } from "./z";
+import { times as lodashTimes } from "lodash";
 
 const shapes: Function[] = [Bar, J, L, S, Z, Square];
 
 let shapeCount = 0;
 
-export function getNextShape() {
+export function getNextShape(): Shape {
   shapeCount++;
   return shapes[Math.floor(Math.random() * shapes.length)](shapeCount);
+}
+
+export function getShapes(times: number) {
+  return lodashTimes(times, getNextShape);
 }
 
 export function getDeepestYCoord(shape: Shape) {
