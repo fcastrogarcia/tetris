@@ -5,6 +5,8 @@ import getPreview from "./preview";
 import { LAYOUT_LIMBO } from "./tetrisLayout";
 import { useTetris } from "./useTetris";
 import cx from "classnames";
+import ActionButton from "./components/ActionButton";
+import RestartButton from "./components/RestartButton";
 
 function getShapeStyle(type: string | null) {
   let style = "";
@@ -15,7 +17,7 @@ function getShapeStyle(type: string | null) {
 }
 
 export default function Home() {
-  const { layout, shapes, toggleGameAction, playing } = useTetris();
+  const { layout, shapes, toggleGameAction, playing, gameOver, restartGame } = useTetris();
 
   return (
     <main className={styles.main}>
@@ -38,7 +40,10 @@ export default function Home() {
       </div>
       <div className={styles["side-panel"]}>
         <div className={styles.preview}>{getPreview(shapes[1].type)}</div>
-        <button onClick={toggleGameAction}>{playing ? "PAUSE" : "PLAY"}</button>
+        <div className={styles.actions}>
+          <RestartButton handleClick={restartGame} />
+          {!gameOver && <ActionButton handleClick={toggleGameAction} isPlaying={playing} />}
+        </div>
       </div>
     </main>
   );

@@ -152,7 +152,11 @@ function reducer(state: State, action: Action) {
     }
 
     case Actions.toggleGameAction: {
-      return { ...state, playing: !state };
+      return { ...state, playing: !state.playing };
+    }
+
+    case Actions.restartGame: {
+      return { ...initialState };
     }
 
     default:
@@ -188,6 +192,10 @@ export function useTetris() {
     dispatch({ type: Actions.toggleGameAction });
   }
 
+  function restartGame() {
+    dispatch({ type: Actions.restartGame });
+  }
+
   useEffect(() => {
     dispatch({ type: Actions.isRowComplete });
   }, [state.plays]);
@@ -216,5 +224,5 @@ export function useTetris() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  return { ...state, toggleGameAction };
+  return { ...state, toggleGameAction, restartGame };
 }
